@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton\Commands;
+namespace Code16\SharpFathomDashboard\Commands;
 
 use Illuminate\Console\Command;
 
-class SkeletonCommand extends Command
+class SharpFathomDashboardCommand extends Command
 {
-    public $signature = 'skeleton';
+    public $signature = 'sharp-fathom-dashboard';
 
     public $description = 'My command';
 
