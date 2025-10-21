@@ -18,6 +18,7 @@ class SharpFathomDashboardServiceProvider extends PackageServiceProvider
         $package
             ->name('sharp-fathom-dashboard')
             ->hasConfigFile()
-            ->hasTranslations();
+            ->hasTranslations()
+            ->hasViews();
     }
 }

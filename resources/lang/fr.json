@@ -1,6 +1,12 @@
 {
     "Unique visitors": "Visiteurs uniques",
     "Page views": "Pages vues",
+    "Referrer": "Provenance",
+    "Top Referrers": "Provenances",
     "Bounce rate": "Taux de rebond",
-    "Average time on site": "Temps moyen sur le site"
+    "Average time on site": "Temps moyen sur le site",
+    "Average time on page": "Temps moyen sur la page",
+    "Unique pages viewed": "Pages vues uniques",
+    "Most viewed pages": "Pages les plus vues",
+    "Open Fathom dashboard": "Accéder au tableau de bord de Fathom"
 }
