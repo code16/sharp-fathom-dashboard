@@ -12,60 +12,41 @@ composer require code16/sharp-fathom-dashboard
 
 You can publish and run the migrations with:
 
-```bash
-php artisan vendor:publish --tag="sharp-fathom-dashboard-migrations"
-php artisan migrate
-```
-
 You can publish the config file with:
 
 ```bash
 php artisan vendor:publish --tag="sharp-fathom-dashboard-config"
 ```
 
-This is the contents of the published config file:
-
-```php
-return [
-];
-```
-
-Optionally, you can publish the views using
-
-```bash
-php artisan vendor:publish --tag="sharp-fathom-dashboard-views"
-```
-
 ## Usage
 
+### Setup required environment variables
+```dotenv
+FATHOM_API_KEY=
+FATHOM_SITE_ID=
+#Optional, will display a dashboard command to open Fathom
+FATHOM_ACCESS_URL= 
+```
+
+### Register the Dashboard Sharp's entity in your Sharp Configuration's Service Provider
 ```php
-$sharpFathomDashboard = new Code16\SharpFathomDashboard();
-echo $sharpFathomDashboard->echoPhrase('Hello, Code16!');
+$config
+    ->setName('My Project')
+    // ...
+    ->declareEntity(Code16\SharpFathomDashboard\Sharp\Entities\FathomDashboardEntity::class);
 ```
 
-## Testing
-
-```bash
-composer test
+### Add the dashboard in your Sharp's Menu
+```php
+    return $this
+        // ...
+        ->addEntityLink(Code16\SharpFathomDashboard\Sharp\Entities\FathomDashboardEntity::class, 'Statistiques', 'fas-chart-line');
 ```
 
-## Changelog
+Done !
 
-Please see [CHANGELOG](CHANGELOG.md) for more information on what has changed recently.
-
-## Contributing
-
-Please see [CONTRIBUTING](CONTRIBUTING.md) for details.
-
-## Security Vulnerabilities
-
-Please review [our security policy](../../security/policy) on how to report security vulnerabilities.
 
 ## Credits
 
-- [Lucien PUGET](https://github.com/code16)
+- [Lucien PUGET](https://github.com/patrickepatate)
 - [All Contributors](../../contributors)
-
-## License
-
-The MIT License (MIT). Please see [License File](LICENSE.md) for more information.
