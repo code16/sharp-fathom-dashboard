@@ -40,7 +40,7 @@ $config
 ```php
     return $this
         // ...
-        ->addEntityLink(Code16\SharpFathomDashboard\Sharp\Entities\FathomDashboardEntity::class, 'Statistiques', 'fas-chart-line');
+        ->addEntityLink(Code16\SharpFathomDashboard\Sharp\Entities\FathomDashboardEntity::class, 'Visits', 'fas-chart-line');
 ```
 
 Done !
