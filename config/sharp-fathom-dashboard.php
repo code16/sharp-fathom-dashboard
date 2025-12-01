@@ -19,5 +19,16 @@ return [
     /*
      * Miscs configuration
      */
-    'fathom_access_url' => env('FATHOM_ACCESS_URL', null)
+    'fathom_access_url' => env('FATHOM_ACCESS_URL', null),
+
+    /*
+     * Chart configuration
+     */
+    'chart' => [
+        'datasets' => [
+            'pageviews',
+        //  'unique_pageviews',
+            'unique_visitors',
+        ],
+    ]
 ];

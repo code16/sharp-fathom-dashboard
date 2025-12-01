@@ -16,7 +16,7 @@ class FathomAnalyticsDateFilter extends DateRangeRequiredFilter
     public function defaultValue(): array
     {
         return [
-            'start' => now()->subDays(30)->format('Y-m-d'),
+            'start' => now()->subDays(29)->format('Y-m-d'),
             'end' => now()->format('Y-m-d'),
         ];
     }
