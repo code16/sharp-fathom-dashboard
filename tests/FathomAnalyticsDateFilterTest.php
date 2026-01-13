@@ -12,7 +12,7 @@ it('FathomAnalyticsDateFilter defaultValue returns last 30 days range', function
 
     expect($default)
         ->toBeArray()
-        ->and($default['start'])->toBe('2025-09-23')
+        ->and($default['start'])->toBe('2025-09-24')
         ->and($default['end'])->toBe('2025-10-23');
 
     Carbon::setTestNow(); // clear

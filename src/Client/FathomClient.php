@@ -65,8 +65,17 @@ class FathomClient
     public function getSite(): ?Site
     {
         if (config()->boolean('sharp-fathom-dashboard.cache')) {
-            $data = Cache::get($this->siteId);
-            return Cache::remember($this->siteId, $this->getCacheDuration(), fn () => $this->executeGetSite());
+            $site = Cache::get($this->siteId);
+            if($site === null){
+                try{
+                    $site = $this->executeGetSite();
+                    Cache::put($this->siteId, $site, $this->getCacheDuration());
+                }catch (\Throwable $e) {
+                    report($e);
+                    return null;
+                }
+            }
+            return $site;
         } else {
             return $this->executeGetSite();
         }
