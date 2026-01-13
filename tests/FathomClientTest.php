@@ -77,6 +77,81 @@ it('getSite uses cache when enabled', function () {
         ->and($second->id)->toBe('SITE_123');
 });
 
+it('getStats returns day-keyed array and handles 200', function () {
+    $startDate = \Illuminate\Support\Carbon::parse('2025-01-01');
+    $endDate = \Illuminate\Support\Carbon::parse('2025-01-02');
+
+    Http::fake([
+        '*/aggregations*' => Http::response([
+            ['date' => '2025-01-01', 'visits' => 10, 'pageviews' => 20],
+            ['date' => '2025-01-02', 'visits' => 15, 'pageviews' => 25],
+        ], 200),
+    ]);
+
+    $client = new FathomClient($startDate, $endDate);
+    $stats = $client->getStats();
+
+    expect($stats)->toBeArray()->toHaveCount(2)
+        ->and($stats)->toHaveKeys(['2025-01-01', '2025-01-02'])
+        ->and($stats['2025-01-01']['visits'])->toBe(10);
+});
+
+it('getStats uses cache when enabled', function () {
+    config()->set('sharp-fathom-dashboard.cache', true);
+    config()->set('sharp-fathom-dashboard.cache_ttl', 60);
+
+    Http::fakeSequence()
+        ->push([
+            ['date' => '2025-01-01', 'visits' => 10],
+        ], 200)
+        ->push([], 500);
+
+    $startDate = \Illuminate\Support\Carbon::parse('2025-01-01');
+    $client = new FathomClient($startDate, $startDate);
+
+    $first = $client->getStats();
+    $second = $client->getStats();
+
+    expect($first)->toBeArray()
+        ->and($second)->toBe($first);
+});
+
+it('getMostViewedPages uses cache when enabled', function () {
+    config()->set('sharp-fathom-dashboard.cache', true);
+    config()->set('sharp-fathom-dashboard.cache_ttl', 60);
+
+    Http::fakeSequence()
+        ->push([
+            ['pathname' => '/', 'pageviews' => 10],
+        ], 200)
+        ->push([], 500);
+
+    $client = new FathomClient();
+    $first = $client->getMostViewedPages();
+    $second = $client->getMostViewedPages();
+
+    expect($first)->toBeArray()
+        ->and($second)->toBe($first);
+});
+
+it('getTopReferrers uses cache when enabled', function () {
+    config()->set('sharp-fathom-dashboard.cache', true);
+    config()->set('sharp-fathom-dashboard.cache_ttl', 60);
+
+    Http::fakeSequence()
+        ->push([
+            ['referrer_hostname' => 'google.com', 'pageviews' => 10],
+        ], 200)
+        ->push([], 500);
+
+    $client = new FathomClient();
+    $first = $client->getTopReferrers();
+    $second = $client->getTopReferrers();
+
+    expect($first)->toBeArray()
+        ->and($second)->toBe($first);
+});
+
 it('executeGetMostViewedPages returns array on 200 and throws on error', function () {
     Http::fakeSequence()
         ->push([
