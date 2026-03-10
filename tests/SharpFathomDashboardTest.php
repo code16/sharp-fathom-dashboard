@@ -73,5 +73,33 @@ it('can build widgets data', function () {
     ]);
 
     expect($data['unique_visitors']['data']['figure'])->toBe('10')
-        ->and($data['pageviews']['data']['figure'])->toBe('10');
+        ->and($data['pageviews']['data']['figure'])->toBe('10')
+        ->and($data['bounce_rate']['data']['figure'])->toBe('0.50%');
+});
+
+it('formats bounce rate correctly as a percentage', function () {
+    Http::fake([
+        '*/sites/*' => Http::response(['id' => 'SITE_123', 'name' => 'Test Site'], 200),
+        '*/aggregations*' => Http::response([
+            [
+                'date' => now()->subDay()->format('Y-m-d'),
+                'visits' => 10,
+                'uniques' => 5,
+                'pageviews' => 10,
+                'avg_duration' => 60,
+                'bounce_rate' => 55.54,
+                'hostname' => 'example.com',
+                'pathname' => '/',
+                'referrer_hostname' => 'google.com',
+                'referrer_pathname' => '/',
+            ],
+        ], 200),
+    ]);
+
+    $dashboard = new SharpFathomDashboard();
+    $dashboard->initQueryParams([
+        FathomAnalyticsDateFilter::class => now()->subDays(30)->format('Y-m-d') . ' - ' . now()->format('Y-m-d')
+    ]);
+
+    expect($dashboard->data()['bounce_rate']['data']['figure'])->toBe('55.54%');
 });
