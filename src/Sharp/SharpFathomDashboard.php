@@ -143,7 +143,7 @@ class SharpFathomDashboard extends SharpDashboard {
             )
             ->setFigureData(
                 'bounce_rate',
-                (round($stats->avg('bounce_rate'), precision: 2) * 100) . '%'
+                Number::percentage($stats->avg('bounce_rate') ?? 0, precision: 2, locale: app()->getLocale())
             );
 
         if (in_array('pageviews', config()->array('sharp-fathom-dashboard.chart.datasets'))) {
