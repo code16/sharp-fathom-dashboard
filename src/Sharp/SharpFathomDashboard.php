@@ -163,7 +163,7 @@ class SharpFathomDashboard extends SharpDashboard {
                 SharpGraphWidgetDataSet::make(
                     $stats
                         ->filter()
-                        ->mapWithKeys(fn($day) => [Carbon::parse($day['date'])->format('d/m/Y') => (int) $day['visits'] ?? 0])
+                        ->mapWithKeys(fn($day) => [Carbon::parse($day['date'])->format('Y-m-d') => (int) $day['visits'] ?? 0])
                 )->setLabel(__("Unique visitors"))->setColor('green')
             );
         }
@@ -174,7 +174,7 @@ class SharpFathomDashboard extends SharpDashboard {
                 SharpGraphWidgetDataSet::make(
                     $stats
                         ->filter()
-                        ->mapWithKeys(fn($day) => [Carbon::parse($day['date'])->format('d/m/Y') => (int) $day['uniques'] ?? 0])
+                        ->mapWithKeys(fn($day) => [Carbon::parse($day['date'])->format('Y-m-d') => (int) $day['uniques'] ?? 0])
                 )->setLabel(__("Unique pages viewed"))->setColor('purple')
             );
         }
